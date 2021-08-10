@@ -144,6 +144,18 @@ Fixes shaking during animations
 	}
 }
 
+@keyframes moveInBottom {
+	0% {
+		opacity: 0;
+		transform: translateY(30px);
+	}
+
+	100% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
 /* :link :visited is a pseudoclass which is a special state of the btn class
 we want them to look the same so we put them together 
 Transition : all - adds .2s animation timing to all states including hover 
@@ -156,6 +168,7 @@ put this here in the initial state */
 	border-radius: 100px;
 	display: inline-block;
 	transition: all 0.2s;
+	position: relative;
 }
 
 .btn:hover {
@@ -171,4 +184,34 @@ put this here in the initial state */
 .btn-white {
 	background-color: #ffff;
 	color: #777;
+}
+
+/* Pseudo element treated like a child of the element */
+.btn::after {
+	content: "";
+	display: inline-block;
+	height: 100%;
+	width: 100%;
+	border-radius: 100px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: -1;
+	transition: all 0.4s;
+}
+
+.btn-white::after {
+	background-color: #fff;
+}
+
+.btn:hover::after {
+	transform: scaleX(1.4) scaleY(1.6);
+	opacity: 0;
+}
+
+/* Animation fill mode - loads keyframe styles before animation starts
+so the button isn't visible before animation starts */
+.btn-animated {
+	animation: moveInBottom 0.5s ease-out 0.75s;
+	animation-fill-mode: backwards;
 }
